@@ -31,7 +31,7 @@ Um aplicativo de lista de tarefas desenvolvido em Flutter que permite aos usuár
 #### Clone o Repositório
 
 ```bash
-git clone https://github.com/Vitu26/todo_app
+git clone https://github.com/Vitu26/todo_app.git
 cd todo_app
 ```
 
@@ -161,7 +161,7 @@ A Flutter To-Do List application that allows users to add, view, update, and del
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/Vitu26/todo_app
+git clone https://github.com/Vitu26/todo_app.git
 cd todo_app
 ```
 
