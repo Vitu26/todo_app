@@ -21,13 +21,13 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Color priorityColor;
     switch (task.priority) {
-      case 'Alta':
+      case 'High':
         priorityColor = Colors.redAccent;
         break;
-      case 'Moderada':
+      case 'Moderate':
         priorityColor = Colors.orangeAccent;
         break;
-      case 'Baixa':
+      case 'Low':
         priorityColor = Colors.greenAccent;
         break;
       default:
@@ -46,31 +46,38 @@ class TaskTile extends StatelessWidget {
                 color: Colors.green,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
-                'Concluída',
+              child: const Text(
+                'Completed',
                 style: TextStyle(color: Colors.white),
               ),
             )
         ],
       ),
-      subtitle: Text('${task.description} - Prioridade: ${task.priority}'),
+      subtitle: Text('${task.description} - Priority: ${task.priority}'),
       trailing: PopupMenuButton<String>(
         icon: Icon(Icons.more_vert),
         onSelected: (String value) {
           switch (value) {
-            case 'Concluída':
+            case 'Complete':
               onCompleted();
               break;
-            case 'Editar':
+            case 'Unmark':
+              onCompleted();
+              break;
+            case 'Edit':
               onEdit();
               break;
-            case 'Deletar':
+            case 'Delete':
               onDelete();
               break;
           }
         },
         itemBuilder: (BuildContext context) {
-          return ['Concluída', 'Editar', 'Deletar'].map((String choice) {
+          return [
+            task.isCompleted ? 'Unmark' : 'Complete',
+            'Edit',
+            'Delete',
+          ].map((String choice) {
             return PopupMenuItem<String>(
               value: choice,
               child: Text(choice),

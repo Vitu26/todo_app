@@ -20,13 +20,13 @@ class CustomDropdown extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: Colors.grey[400],
+            color: Colors.grey[200],
             borderRadius: BorderRadius.circular(10),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
-              items: ['Alta', 'Moderada', 'Baixa'].map((String value) {
+              items: ['High', 'Moderate', 'Low'].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),

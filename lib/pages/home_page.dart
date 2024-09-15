@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/widgets/custom_appbar.dart';
 import 'package:todo_app/widgets/filter_options.dart';
 import 'package:todo_app/widgets/task_list.dart';
 import '../models/task.dart';
@@ -14,13 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime _selectedDate = DateTime.now();
-  String _selectedPriorityTemp = 'Todas';
-  String _selectedStatusTemp = 'Todas';
-  String _selectedPriority = 'Todas';
-  String _selectedStatus = 'Todas';
+  String _selectedPriorityTemp = 'All';
+  String _selectedStatusTemp = 'All';
+  String _selectedPriority = 'All';
+  String _selectedStatus = 'All';
 
   String _formatDate(DateTime date) {
-    return DateFormat('EEEE, d MMMM y', 'pt_BR').format(date);
+    return DateFormat('EEEE, d MMMM y', 'en_US').format(date);
   }
 
   @override
@@ -75,14 +77,44 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, String taskId, TaskProvider taskProvider) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text('Do you really want to delete this task?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                taskProvider.deleteTaskById(taskId);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Agenda Diária'),
+      backgroundColor: Colors.white,
+      appBar: CustomAppBar(
+        title: 'To-do App',
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(FontAwesomeIcons.filter),
             onPressed: _showFilterOptions,
           ),
         ],
@@ -98,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => _selectDate(context),
                   child: Text(
                     _formatDate(_selectedDate),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -114,25 +146,32 @@ class _HomePageState extends State<HomePage> {
                 List<Task> filteredTasks =
                     taskProvider.filterByDate(_selectedDate);
 
-                if (_selectedPriority != 'Todas') {
+                if (_selectedPriority != 'All') {
                   filteredTasks = filteredTasks
                       .where((task) => task.priority == _selectedPriority)
                       .toList();
                 }
 
-                if (_selectedStatus == 'Concluídas') {
+                if (_selectedStatus == 'Completed') {
                   filteredTasks =
                       filteredTasks.where((task) => task.isCompleted).toList();
                 }
 
                 return filteredTasks.isEmpty
-                    ? Center(
-                        child: Text('Nenhuma tarefa encontrada para esta data.',
-                            style: TextStyle(fontSize: 18)))
+                    ? const Center(
+                        child: Text(
+                          'No tasks found for this date.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
                     : TaskList(
                         tasks: filteredTasks,
                         onCompleted: (index) {
-                          taskProvider.completeTask(index);
+                          Task task = filteredTasks[index];
+                          task.isCompleted = !task
+                              .isCompleted;
+                          taskProvider.updateTask(
+                              index, task);
                         },
                         onEdit: (index) {
                           Navigator.of(context).push(
@@ -145,8 +184,8 @@ class _HomePageState extends State<HomePage> {
                         },
                         onTap: (index) {},
                         onDelete: (index) {
-                          taskProvider.deleteTaskById(
-                              filteredTasks[index].id);
+                          _showDeleteConfirmationDialog(
+                              context, filteredTasks[index].id, taskProvider);
                         },
                       );
               },
@@ -178,16 +217,16 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.lightBlueAccent, Colors.blue.shade900],
+              gradient: const LinearGradient(
+                colors: [Colors.lightBlueAccent, Colors.blue],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
-                'Adicionar Tarefa',
+                'Add Task',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

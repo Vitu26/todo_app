@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/widgets/custom_appbar.dart';
 import 'package:todo_app/widgets/custom_buton.dart';
 import 'package:todo_app/widgets/custom_textfield.dart';
 import '../models/task.dart';
@@ -22,7 +23,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
   String? _title;
   String? _description;
   DateTime? _selectedDate;
-  String _selectedPriority = 'Moderada';
+  String _selectedPriority = 'Moderate';
   bool _isLoading = false;
 
   @override
@@ -65,15 +66,12 @@ class _TaskFormPageState extends State<TaskFormPage> {
         priority: _selectedPriority,
       );
 
-      await Future.delayed(const Duration(seconds: 2));
-
       if (widget.task == null) {
         Provider.of<TaskProvider>(context, listen: false).addTask(task);
       } else {
         Provider.of<TaskProvider>(context, listen: false)
             .updateTask(widget.index!, task);
       }
-
 
       _showSuccessDialog(context);
     }
@@ -89,13 +87,12 @@ class _TaskFormPageState extends State<TaskFormPage> {
           Animation<double> secondaryAnimation) {
         return ScaleTransition(
           scale: CurvedAnimation(
-            parent:
-                animation,
+            parent: animation,
             curve: Curves.easeInOut,
           ),
           child: AlertDialog(
-            title: const Text('Sucesso'),
-            content: const Text('Tarefa adicionada com sucesso!'),
+            title: const Text('Success'),
+            content: const Text('Task saved successfully!'),
             actions: [
               Container(
                 width: 150,
@@ -114,7 +111,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(); // Close both dialogs and page
                   },
                   child: const Text(
                     'OK',
@@ -138,8 +135,10 @@ class _TaskFormPageState extends State<TaskFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.task == null ? 'Adicionar Tarefa' : 'Editar Tarefa'),
+      backgroundColor: Colors.white,
+      appBar: CustomAppBar(
+        title: widget.task == null ? 'Add Task' : 'Edit Task',
+        showBackButton: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -149,7 +148,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Titulo:',
+                'Title:',
                 style: TextStyle(fontSize: 16),
               ),
               CustomTextField(
@@ -159,34 +158,41 @@ class _TaskFormPageState extends State<TaskFormPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira um título';
+                    return 'Please enter a title';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
               const Text(
-                'Data:',
+                'Date:',
                 style: TextStyle(fontSize: 16),
               ),
               TextFormField(
+                key: Key('selectDateField'),
                 readOnly: true,
                 onTap: () => _selectDate(context),
                 decoration: InputDecoration(
                   hintText: _selectedDate == null
-                      ? 'Selecione uma data'
+                      ? 'Select a date'
                       : DateFormat('dd/MM/yyyy').format(_selectedDate!),
                   filled: true,
-                  fillColor: Colors.grey[400],
+                  fillColor: Colors.grey[200],
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                 ),
+                validator: (value) {
+                  if (_selectedDate == null) {
+                    return 'Please select a date';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               CustomDropdown(
-                label: 'Prioridade',
+                label: 'Priority',
                 value: _selectedPriority,
                 onChanged: (String? newValue) {
                   setState(() {
@@ -196,7 +202,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Descrição:',
+                'Description:',
                 style: TextStyle(fontSize: 16),
               ),
               CustomTextField(
@@ -213,6 +219,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 15.0, right: 10, left: 10),
         child: CustomButton(
+          key: const Key('saveTaskButton'),
           isLoading: _isLoading,
           onPressed: _saveTask,
         ),

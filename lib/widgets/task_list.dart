@@ -21,7 +21,7 @@ class TaskList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: tasks.length,
-      separatorBuilder: (context, index) => Divider(
+      separatorBuilder: (context, index) => const Divider(
         height: 1,
         thickness: 1,
       ),

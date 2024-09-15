@@ -38,28 +38,28 @@ class _FilterOptionsState extends State<FilterOptions> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Filtrar por Estado:',
+          Text('Filter by Status:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildGradientButton(
-                'Todas',
-                _selectedStatus == 'Todas',
+                'All',
+                _selectedStatus == 'All',
                 () {
                   setState(() {
-                    _selectedStatus = 'Todas';
+                    _selectedStatus = 'All';
                     widget.onStatusSelected(_selectedStatus);
                   });
                 },
               ),
               _buildGradientButton(
-                'Concluídas',
-                _selectedStatus == 'Concluídas',
+                'Completed',
+                _selectedStatus == 'Completed',
                 () {
                   setState(() {
-                    _selectedStatus = 'Concluídas';
+                    _selectedStatus = 'Completed';
                     widget.onStatusSelected(_selectedStatus);
                   });
                 },
@@ -67,48 +67,48 @@ class _FilterOptionsState extends State<FilterOptions> {
             ],
           ),
           SizedBox(height: 20),
-          Text('Filtrar por Prioridade:',
+          Text('Filter by Priority:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildGradientButton(
-                'Todas',
-                _selectedPriority == 'Todas',
+                'All',
+                _selectedPriority == 'All',
                 () {
                   setState(() {
-                    _selectedPriority = 'Todas';
+                    _selectedPriority = 'All';
                     widget.onPrioritySelected(_selectedPriority);
                   });
                 },
               ),
               _buildGradientButton(
-                'Alta',
-                _selectedPriority == 'Alta',
+                'High',
+                _selectedPriority == 'High',
                 () {
                   setState(() {
-                    _selectedPriority = 'Alta';
+                    _selectedPriority = 'High';
                     widget.onPrioritySelected(_selectedPriority);
                   });
                 },
               ),
               _buildGradientButton(
-                'Moderada',
-                _selectedPriority == 'Moderada',
+                'Moderate',
+                _selectedPriority == 'Moderate',
                 () {
                   setState(() {
-                    _selectedPriority = 'Moderada';
+                    _selectedPriority = 'Moderate';
                     widget.onPrioritySelected(_selectedPriority);
                   });
                 },
               ),
               _buildGradientButton(
-                'Baixa',
-                _selectedPriority == 'Baixa',
+                'Low',
+                _selectedPriority == 'Low',
                 () {
                   setState(() {
-                    _selectedPriority = 'Baixa';
+                    _selectedPriority = 'Low';
                     widget.onPrioritySelected(_selectedPriority);
                   });
                 },
