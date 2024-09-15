@@ -31,8 +31,8 @@ Um aplicativo de lista de tarefas desenvolvido em Flutter que permite aos usuár
 #### Clone o Repositório
 
 ```bash
-git clone https://github.com/seuusuario/flutter-todo-app.git
-cd flutter-todo-app
+git clone https://github.com/Vitu26/todo_app
+cd todo_app
 ```
 
 #### Instale as Dependências
@@ -161,8 +161,8 @@ A Flutter To-Do List application that allows users to add, view, update, and del
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/flutter-todo-app.git
-cd flutter-todo-app
+git clone https://github.com/Vitu26/todo_app
+cd todo_app
 ```
 
 #### Install Dependencies
