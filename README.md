@@ -123,10 +123,6 @@ flutter test
 4. Faça push para a branch (`git push origin feature/nova-funcionalidade`).
 5. Abra um pull request.
 
-## Licença
-
-Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ---
 
 # Flutter To-Do List App
@@ -252,7 +248,3 @@ flutter test
 3. Commit your changes (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature/new-feature`).
 5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
